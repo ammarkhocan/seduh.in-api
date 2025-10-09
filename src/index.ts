@@ -1,5 +1,6 @@
 import { Hono } from "hono";
 import { db } from "./lib/db";
+import productsRoute from "./routes/products";
 
 const app = new Hono();
 
@@ -9,10 +10,6 @@ app.get("/", (c) => {
   });
 });
 
-app.get("/products", async (c) => {
-  const products = await db.product.findMany();
-
-  return c.json(products);
-});
+app.route("/products", productsRoute);
 
 export default app;
