@@ -3,12 +3,9 @@ import { PrismaClient } from "../src/generated/prisma";
 const db = new PrismaClient();
 
 async function main() {
-  console.log("🌱 Seeding database for Seduh.in...");
-
-  // Hapus data lama dulu (optional, supaya tidak duplikat saat seed ulang)
+  // Delete old data (optional)
   //   await db.product.deleteMany();
 
-  // Tambah data produk kopi
   await db.product.createMany({
     data: [
       {
@@ -54,7 +51,7 @@ async function main() {
     ],
   });
 
-  console.log("✅ Seeding selesai! Data produk Seduh.in berhasil ditambahkan.");
+  console.log("Seeding complete! Seduh.in product data has been successfully added.");
 }
 
 main()
@@ -62,7 +59,7 @@ main()
     await db.$disconnect();
   })
   .catch(async (e) => {
-    console.error("❌ Seeding gagal:", e);
+    console.error("Seeding failed:", e);
     await db.$disconnect();
     process.exit(1);
   });
