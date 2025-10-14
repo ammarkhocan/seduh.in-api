@@ -10,11 +10,11 @@ productsRoute.get("/", async (c) => {
 });
 
 // GET /products/:id
-productsRoute.get("/", async (c) => {
+productsRoute.get("/:id", async (c) => {
   const id = c.req.param("id");
   const product = await db.product.findUnique({ where: { id } });
 
-  if (!product) return c.json({ message: "Product not found" }, 404);
+  if (!product) return c.json({ message: "Product not found sasa" }, 404);
   return c.json(product);
 });
 
