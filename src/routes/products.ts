@@ -1,7 +1,7 @@
 import { Hono } from "hono";
 import { db } from "../lib/db";
 
-const productsRoute = new Hono();
+export const productsRoute = new Hono();
 
 // GET /products
 productsRoute.get("/", async (c) => {
@@ -9,10 +9,10 @@ productsRoute.get("/", async (c) => {
   return c.json(product);
 });
 
-// GET /products/:id
-productsRoute.get("/:id", async (c) => {
-  const id = c.req.param("id");
-  const product = await db.product.findUnique({ where: { id } });
+// GET /products/:slug
+productsRoute.get("/:slug", async (c) => {
+  const slug = c.req.param("slug");
+  const product = await db.product.findUnique({ where: { slug } });
 
   if (!product) return c.json({ message: "Product not found sasa" }, 404);
   return c.json(product);
@@ -22,7 +22,14 @@ productsRoute.get("/:id", async (c) => {
 productsRoute.post("/", async (c) => {
   const body = await c.req.json();
 
-  if (!body.name || !body.price || !body.stock || !body.origin || !body.imageUrl || !body.description) {
+  if (
+    !body.name ||
+    !body.price ||
+    !body.stock ||
+    !body.origin ||
+    !body.imageUrl ||
+    !body.description
+  ) {
     return c.json({ message: "Missing required fields" }, 400);
   }
 
@@ -96,5 +103,3 @@ productsRoute.delete("/:id", async (c) => {
     return c.json({ message: "Product not found" }, 404);
   }
 });
-
-export default productsRoute;

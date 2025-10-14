@@ -1,13 +1,10 @@
 import { Hono } from "hono";
-import { db } from "./lib/db";
-import productsRoute from "./routes/products";
+import { productsRoute } from "./routes/products";
 
 const app = new Hono();
 
 app.get("/", (c) => {
-  return c.json({
-    title: "Seduh.in API",
-  });
+  return c.json({ title: "Seduh.in API" });
 });
 
 app.route("/products", productsRoute);
