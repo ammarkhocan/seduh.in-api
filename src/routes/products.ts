@@ -9,12 +9,12 @@ productsRoute.get("/", async (c) => {
   return c.json(product);
 });
 
-// GET /products/:id
-productsRoute.get("/:id", async (c) => {
-  const id = c.req.param("id");
+// GET /products/:slug
+productsRoute.get("/:slug", async (c) => {
+  const id = c.req.param("slug");
   const product = await db.product.findUnique({ where: { id } });
 
-  if (!product) return c.json({ message: "Product not found sasa" }, 404);
+  if (!product) return c.json({ message: "Product not found" }, 404);
   return c.json(product);
 });
 
