@@ -29,6 +29,7 @@ productsRoute.post("/", async (c) => {
   const newProduct = await db.product.create({
     data: {
       name: body.name,
+      slug: body.slug,
       imageUrl: body.imageUrl,
       origin: body.origin,
       price: body.price,

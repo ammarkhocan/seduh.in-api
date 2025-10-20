@@ -10,6 +10,7 @@ async function main() {
     data: [
       {
         name: "Kopi Arabika Gayo",
+        slug: "kopi-arabika-gayo",
         imageUrl: "https://images.unsplash.com/photo-1509042239860-f550ce710b93",
         origin: "Aceh, Indonesia",
         price: 120000,
@@ -19,6 +20,7 @@ async function main() {
       },
       {
         name: "Kopi Robusta Lampung",
+        slug: "kopi-robusta-lampung",
         imageUrl: "https://images.unsplash.com/photo-1510626176961-4b57d4fbad03",
         origin: "Lampung, Indonesia",
         price: 95000,
@@ -28,6 +30,7 @@ async function main() {
       },
       {
         name: "Kopi Toraja Kalosi",
+        slug: "kopi-toraja-kalosi",
         imageUrl: "https://images.unsplash.com/photo-1527169402691-a3f7c9a97656",
         origin: "Toraja, Sulawesi Selatan",
         price: 130000,
@@ -37,6 +40,7 @@ async function main() {
       },
       {
         name: "Espresso Blend Signature",
+        slug: "espresso-blend-signature",
         imageUrl: "https://images.unsplash.com/photo-1504754524776-8f4f37790ca0",
         origin: "Blend Nusantara",
         price: 110000,
@@ -46,6 +50,7 @@ async function main() {
       },
       {
         name: "Cold Brew Seduh.in Original",
+        slug: "cold-Brew-seduh.in-original",
         imageUrl: "https://images.unsplash.com/photo-1511920170033-f8396924c348",
         origin: "Indonesia",
         price: 35000,
