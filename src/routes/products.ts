@@ -1,7 +1,7 @@
 import { Hono } from "hono";
 import { db } from "../lib/db";
 
-const productsRoute = new Hono();
+export const productsRoute = new Hono();
 
 // GET /products
 productsRoute.get("/", async (c) => {
@@ -97,5 +97,3 @@ productsRoute.delete("/:id", async (c) => {
     return c.json({ message: "Product not found" }, 404);
   }
 });
-
-export default productsRoute;

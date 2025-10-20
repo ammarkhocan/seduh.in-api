@@ -1,6 +1,5 @@
 import { Hono } from "hono";
-import { db } from "./lib/db";
-import productsRoute from "./routes/products";
+import { productsRoute } from "./routes/products";
 
 const app = new Hono();
 
