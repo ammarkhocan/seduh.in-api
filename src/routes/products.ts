@@ -1,7 +1,52 @@
 import { Hono } from "hono";
+import { OpenAPIHono, createRoute, z } from "@hono/zod-openapi";
+
 import { db } from "../lib/db";
 
-export const productsRoute = new Hono();
+export const productsRoute = new OpenAPIHono();
+export const app = new OpenAPIHono();
+
+const getProductsRoute = createRoute({
+  method: "get",
+  path: "/products",
+  responses: {
+    200: {
+      description: "GET all products",
+      content: {
+        "application/json": {
+          schema: z
+            .object({
+              id: z.string(),
+              slug: z.string(),
+              name: z.string(),
+              imageUrl: z.string(),
+              origin: z.string(),
+              price: z.number(),
+              stock: z.int(),
+              description: z.string(),
+              createdAt: z.string(),
+              updatedAt: z.string(),
+            })
+            .array(),
+        },
+      },
+    },
+  },
+});
+
+app.openapi(getProductsRoute, async (c) => {
+  const products = await db.product.findMany();
+
+  return c.json(products);
+});
+
+app.doc("/openapi.json", {
+  openapi: "3.0.0",
+  info: {
+    title: "Seduh.in API",
+    version: "1.0.0",
+  },
+});
 
 // GET /products
 productsRoute.get("/", async (c) => {
@@ -100,3 +145,5 @@ productsRoute.delete("/:id", async (c) => {
     return c.json({ message: "Product not found" }, 404);
   }
 });
+
+export const productsDoc = app;

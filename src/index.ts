@@ -1,5 +1,5 @@
 import { Hono } from "hono";
-import { productsRoute } from "./routes/products";
+import { productsRoute, productsDoc } from "./routes/products";
 
 const app = new Hono();
 
@@ -11,4 +11,5 @@ app.get("/", (c) => {
 
 app.route("/products", productsRoute);
 
+app.route("/", productsDoc);
 export default app;
