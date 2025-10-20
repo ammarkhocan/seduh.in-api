@@ -14,7 +14,8 @@ async function main() {
         origin: "Aceh, Indonesia",
         price: 120000,
         stock: 50,
-        description: "Kopi Arabika Gayo terkenal dengan rasa floral dan sedikit rasa cokelat. Cocok untuk manual brew maupun espresso.",
+        description:
+          "Kopi Arabika Gayo terkenal dengan rasa floral dan sedikit rasa cokelat. Cocok untuk manual brew maupun espresso.",
       },
       {
         name: "Kopi Robusta Lampung",
@@ -22,7 +23,8 @@ async function main() {
         origin: "Lampung, Indonesia",
         price: 95000,
         stock: 60,
-        description: "Robusta Lampung memiliki karakter kuat dan aroma pekat. Pilihan tepat untuk pecinta kopi hitam tanpa campuran.",
+        description:
+          "Robusta Lampung memiliki karakter kuat dan aroma pekat. Pilihan tepat untuk pecinta kopi hitam tanpa campuran.",
       },
       {
         name: "Kopi Toraja Kalosi",
@@ -30,7 +32,8 @@ async function main() {
         origin: "Toraja, Sulawesi Selatan",
         price: 130000,
         stock: 40,
-        description: "Toraja Kalosi dengan rasa earthy dan fruity yang seimbang, ideal untuk pour over atau french press.",
+        description:
+          "Toraja Kalosi dengan rasa earthy dan fruity yang seimbang, ideal untuk pour over atau french press.",
       },
       {
         name: "Espresso Blend Signature",
@@ -38,7 +41,8 @@ async function main() {
         origin: "Blend Nusantara",
         price: 110000,
         stock: 45,
-        description: "Perpaduan biji Arabika dan Robusta pilihan. Rasa seimbang antara pahit dan manis, cocok untuk espresso dan cappuccino.",
+        description:
+          "Perpaduan biji Arabika dan Robusta pilihan. Rasa seimbang antara pahit dan manis, cocok untuk espresso dan cappuccino.",
       },
       {
         name: "Cold Brew Seduh.in Original",
@@ -46,7 +50,8 @@ async function main() {
         origin: "Indonesia",
         price: 35000,
         stock: 30,
-        description: "Cold Brew siap minum khas Seduh.in. Rasa smooth, tidak terlalu asam, disajikan dalam botol 250ml yang praktis.",
+        description:
+          "Cold Brew siap minum khas Seduh.in. Rasa smooth, tidak terlalu asam, disajikan dalam botol 250ml yang praktis.",
       },
     ],
   });
