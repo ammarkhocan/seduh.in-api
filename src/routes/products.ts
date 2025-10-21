@@ -2,8 +2,11 @@ import { OpenAPIHono, createRoute, z } from "@hono/zod-openapi";
 import { Scalar } from "@scalar/hono-api-reference";
 import { db } from "../lib/db";
 import { GetProductBySlugSchema, ProductSchema, ProductsSchema } from "../modules/product/schema";
+import { cors } from "hono/cors";
 
 export const app = new OpenAPIHono();
+
+app.use(cors());
 
 app.openapi(
   createRoute({
