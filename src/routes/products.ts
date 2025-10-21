@@ -1,10 +1,9 @@
-import { Hono } from "hono";
 import { OpenAPIHono, createRoute, z } from "@hono/zod-openapi";
-
+import { Scalar } from "@scalar/hono-api-reference";
 import { db } from "../lib/db";
 
 export const productsRoute = new OpenAPIHono();
-export const app = new OpenAPIHono();
+export const productsDoc = new OpenAPIHono();
 
 const getProductsRoute = createRoute({
   method: "get",
@@ -34,19 +33,26 @@ const getProductsRoute = createRoute({
   },
 });
 
-app.openapi(getProductsRoute, async (c) => {
+productsDoc.openapi(getProductsRoute, async (c) => {
   const products = await db.product.findMany();
-
   return c.json(products);
 });
 
-app.doc("/openapi.json", {
+productsDoc.doc("/openapi.json", {
   openapi: "3.0.0",
   info: {
     title: "Seduh.in API",
     version: "1.0.0",
   },
 });
+
+productsDoc.get(
+  "/",
+  Scalar({
+    pageTitle: "Seduh.in API",
+    url: "/openapi.json",
+  })
+);
 
 // GET /products
 productsRoute.get("/", async (c) => {
@@ -145,5 +151,3 @@ productsRoute.delete("/:id", async (c) => {
     return c.json({ message: "Product not found" }, 404);
   }
 });
-
-export const productsDoc = app;

@@ -1,15 +1,9 @@
-import { Hono } from "hono";
+import { OpenAPIHono } from "@hono/zod-openapi";
 import { productsRoute, productsDoc } from "./routes/products";
 
-const app = new Hono();
-
-app.get("/", (c) => {
-  return c.json({
-    title: "Seduh.in API",
-  });
-});
+const app = new OpenAPIHono();
 
 app.route("/products", productsRoute);
-
 app.route("/", productsDoc);
+
 export default app;
