@@ -7,6 +7,7 @@ import {
   ProductIdParamSchema,
   ProductSchema,
   ProductsSchema,
+  ProductUpdateSchema,
 } from "../modules/product/schema";
 import { cors } from "hono/cors";
 
@@ -132,6 +133,59 @@ app.openapi(
     } catch (error) {
       console.error(error);
       return c.json({ error: "Failed to delete product" }, 400);
+    }
+  }
+);
+
+app.openapi(
+  createRoute({
+    method: "patch",
+    path: "/products/{id}",
+    request: {
+      params: ProductIdParamSchema,
+      body: {
+        content: { "application/json": { schema: ProductUpdateSchema } },
+      },
+    },
+    responses: {
+      200: {
+        description: "Product updated successfully",
+        content: {
+          "application/json": {
+            schema: ProductSchema,
+          },
+        },
+      },
+      404: {
+        description: "Product not found",
+      },
+      400: {
+        description: "Invalid request body",
+      },
+    },
+  }),
+  async (c) => {
+    try {
+      const { id } = c.req.valid("param");
+      const data = await c.req.valid("json");
+
+      const product = await db.product.findUnique({ where: { id } });
+      if (!product) {
+        return c.json({ message: "Product not found" }, 404);
+      }
+
+      const updatedProduct = await db.product.update({
+        where: { id },
+        data,
+      });
+
+      return c.json({
+        message: `Product with id '${id}' updated successfully`,
+        updatedProduct,
+      });
+    } catch (error) {
+      console.error(error);
+      return c.json({ error: "Failed to update product" }, 400);
     }
   }
 );

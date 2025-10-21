@@ -24,3 +24,7 @@ export const ProductIdParamSchema = z.object({
 });
 
 export const ProductCreateSchema = ProductSchema.omit({ id: true, createdAt: true, updatedAt: true });
+
+export const ProductUpdateSchema = ProductCreateSchema.partial().openapi({
+  description: "Fields that can be updated for the product",
+});
