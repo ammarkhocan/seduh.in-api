@@ -3,26 +3,26 @@ import { Scalar } from "@scalar/hono-api-reference";
 import { db } from "../lib/db";
 import { ProductSchema } from "../modules/product/schema";
 
-export const productsRoute = new OpenAPIHono();
-export const productsDoc = new OpenAPIHono();
+export const app = new OpenAPIHono();
 
-const getProductsRoute = createRoute({
-  method: "get",
-  path: "/products",
-  responses: {
-    200: {
-      description: "GET all products",
-      content: { "application/json": { schema: ProductSchema } },
+app.openapi(
+  createRoute({
+    method: "get",
+    path: "/products",
+    responses: {
+      200: {
+        description: "Get all products",
+        content: { "application/json": { schema: ProductSchema } },
+      },
     },
-  },
-});
+  }),
+  async (c) => {
+    const products = await db.product.findMany();
+    return c.json(products);
+  }
+);
 
-productsDoc.openapi(getProductsRoute, async (c) => {
-  const products = await db.product.findMany();
-  return c.json(products);
-});
-
-productsDoc.doc("/openapi.json", {
+app.doc("/openapi.json", {
   openapi: "3.0.0",
   info: {
     title: "Seduh.in API",
@@ -30,13 +30,15 @@ productsDoc.doc("/openapi.json", {
   },
 });
 
-productsDoc.get(
+app.get(
   "/",
   Scalar({
     pageTitle: "Seduh.in API",
     url: "/openapi.json",
   })
 );
+
+export const productsRoute = new OpenAPIHono();
 
 // GET /products
 productsRoute.get("/", async (c) => {
