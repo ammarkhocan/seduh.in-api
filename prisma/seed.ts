@@ -10,7 +10,7 @@ async function main() {
       update: dataProduct,
       create: dataProduct,
     });
-    console.log(upsertedProduct.name);
+    console.log(`☕ ${upsertedProduct.name}`);
   }
 
   console.log("Seeding complete! Seduh.in product data has been successfully added.");
