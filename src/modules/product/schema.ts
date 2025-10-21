@@ -15,6 +15,18 @@ export const ProductSchema = z.object({
 
 export const ProductsSchema = z.array(ProductSchema);
 
-export const GetProductBySlugSchema = z.object({ slug: z.string() });
+export const ProductBySlugSchema = z.object({ slug: z.string() });
+
+export const ProductIdParamSchema = z.object({
+  id: z.string().openapi({
+    param: {
+      name: "id",
+      in: "path",
+      description: "Unique product ID",
+      required: true,
+    },
+    example: "0DSD798SDBR7X76X23",
+  }),
+});
 
 export const ProductCreateSchema = ProductSchema.omit({ id: true, createdAt: true, updatedAt: true });

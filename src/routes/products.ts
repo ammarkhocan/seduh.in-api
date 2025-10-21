@@ -1,7 +1,13 @@
 import { OpenAPIHono, createRoute, z } from "@hono/zod-openapi";
 import { Scalar } from "@scalar/hono-api-reference";
 import { db } from "../lib/db";
-import { GetProductBySlugSchema, ProductCreateSchema, ProductSchema, ProductsSchema } from "../modules/product/schema";
+import {
+  ProductBySlugSchema,
+  ProductCreateSchema,
+  ProductIdParamSchema,
+  ProductSchema,
+  ProductsSchema,
+} from "../modules/product/schema";
 import { cors } from "hono/cors";
 
 export const app = new OpenAPIHono();
@@ -29,7 +35,7 @@ app.openapi(
   createRoute({
     method: "get",
     path: "/products/{slug}",
-    request: { params: GetProductBySlugSchema },
+    request: { params: ProductBySlugSchema },
     responses: {
       200: {
         description: "Get on product by slug",
@@ -93,6 +99,39 @@ app.openapi(
     } catch (error) {
       console.error(error);
       return c.json({ error: "Failed to create product" }, 400);
+    }
+  }
+);
+
+app.openapi(
+  createRoute({
+    method: "delete",
+    path: "/products/{id}",
+    request: { params: ProductIdParamSchema },
+    responses: {
+      200: { description: "Product deleted successfully" },
+      404: { description: "Product not found" },
+    },
+  }),
+  async (c) => {
+    try {
+      const { id } = c.req.valid("param");
+
+      const product = await db.product.findUnique({ where: { id } });
+
+      if (!product) {
+        return c.json({ message: "Product not found" }, 404);
+      }
+
+      await db.product.delete({ where: { id } });
+
+      return c.json({
+        message: `Product with id '${id}' deleted successfully`,
+        deletedProduct: product,
+      });
+    } catch (error) {
+      console.error(error);
+      return c.json({ error: "Failed to delete product" }, 400);
     }
   }
 );
