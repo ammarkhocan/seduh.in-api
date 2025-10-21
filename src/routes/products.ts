@@ -1,7 +1,7 @@
 import { OpenAPIHono, createRoute, z } from "@hono/zod-openapi";
 import { Scalar } from "@scalar/hono-api-reference";
 import { db } from "../lib/db";
-import { ProductSchema } from "../modules/product/schema";
+import { ProductsSchema } from "../modules/product/schema";
 
 export const app = new OpenAPIHono();
 
@@ -12,7 +12,7 @@ app.openapi(
     responses: {
       200: {
         description: "Get all products",
-        content: { "application/json": { schema: ProductSchema } },
+        content: { "application/json": { schema: ProductsSchema } },
       },
     },
   }),
