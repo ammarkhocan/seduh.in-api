@@ -1,7 +1,7 @@
 import { OpenAPIHono, createRoute, z } from "@hono/zod-openapi";
 import { Scalar } from "@scalar/hono-api-reference";
 import { db } from "../lib/db";
-import { GetProductBySlugSchema, ProductSchema, ProductsSchema } from "../modules/product/schema";
+import { GetProductBySlugSchema, ProductCreateSchema, ProductSchema, ProductsSchema } from "../modules/product/schema";
 import { cors } from "hono/cors";
 
 export const app = new OpenAPIHono();
@@ -66,6 +66,35 @@ app.get(
     pageTitle: "Seduh.in API",
     url: "/openapi.json",
   })
+);
+
+app.openapi(
+  createRoute({
+    method: "post",
+    path: "/products",
+    request: {
+      body: {
+        content: { "application/json": { schema: ProductCreateSchema } },
+      },
+    },
+    responses: {
+      201: {
+        description: "Product created successfully",
+        content: { "application/json": { schema: ProductSchema } },
+      },
+      400: { description: "Invalid request" },
+    },
+  }),
+  async (c) => {
+    try {
+      const data = await c.req.valid("json");
+      const newProduct = await db.product.create({ data });
+      return c.json(newProduct, 201);
+    } catch (error) {
+      console.error(error);
+      return c.json({ error: "Failed to create product" }, 400);
+    }
+  }
 );
 
 export const productsRoute = new OpenAPIHono();

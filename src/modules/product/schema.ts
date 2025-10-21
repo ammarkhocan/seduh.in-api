@@ -16,3 +16,5 @@ export const ProductSchema = z.object({
 export const ProductsSchema = z.array(ProductSchema);
 
 export const GetProductBySlugSchema = z.object({ slug: z.string() });
+
+export const ProductCreateSchema = ProductSchema.omit({ id: true, createdAt: true, updatedAt: true });
