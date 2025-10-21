@@ -1,7 +1,7 @@
 import { OpenAPIHono, createRoute, z } from "@hono/zod-openapi";
 import { Scalar } from "@scalar/hono-api-reference";
 import { db } from "../lib/db";
-import { ProductsSchema } from "../modules/product/schema";
+import { GetProductBySlugSchema, ProductSchema, ProductsSchema } from "../modules/product/schema";
 
 export const app = new OpenAPIHono();
 
@@ -19,6 +19,33 @@ app.openapi(
   async (c) => {
     const products = await db.product.findMany();
     return c.json(products);
+  }
+);
+
+app.openapi(
+  createRoute({
+    method: "get",
+    path: "/products/{slug}",
+    request: { params: GetProductBySlugSchema },
+    responses: {
+      200: {
+        description: "Get on product by slug",
+        content: { "application/json": { schema: ProductSchema } },
+      },
+      404: {
+        description: "product by slug not found",
+      },
+    },
+  }),
+  async (c) => {
+    const { slug } = c.req.valid("param");
+
+    const product = await db.product.findUnique({ where: { slug } });
+
+    if (!product) {
+      return c.notFound();
+    }
+    return c.json(product);
   }
 );
 
