@@ -2,7 +2,7 @@ export const dataProducts = [
   {
     name: "Kopi Arabika Gayo",
     slug: "kopi-arabika-gayo",
-    imageUrl: "https://1ea7bnszm7.ucarecd.net/9883d85b-5bbe-4dd7-b749-caf5f54976e8/-/preview/666x1000/",
+    imageUrl: "https://1ea7bnszm7.ucarecd.net/9883d85b-5bbe-4dd7-b749-caf5f54976e8/-/preview/333x500/",
     origin: "Aceh, Indonesia",
     price: 120000,
     stock: 50,
@@ -12,7 +12,7 @@ export const dataProducts = [
   {
     name: "Kopi Robusta Lampung",
     slug: "kopi-robusta-lampung",
-    imageUrl: "https://1ea7bnszm7.ucarecd.net/97c509ee-a2af-4c0f-b0e0-da7946b32e1c/-/preview/666x1000/",
+    imageUrl: "https://1ea7bnszm7.ucarecd.net/97c509ee-a2af-4c0f-b0e0-da7946b32e1c/-/preview/333x500/",
     origin: "Lampung, Indonesia",
     price: 95000,
     stock: 60,
@@ -22,7 +22,7 @@ export const dataProducts = [
   {
     name: "Kopi Bubuk Toraja",
     slug: "kopi-bubuk-toraja",
-    imageUrl: "https://1ea7bnszm7.ucarecd.net/97b0e683-b373-4afd-8cec-035f2be32f9f/-/preview/666x1000/",
+    imageUrl: "https://1ea7bnszm7.ucarecd.net/97b0e683-b373-4afd-8cec-035f2be32f9f/-/preview/333x500/",
     origin: "Sulawesi, Indonesia",
     price: 90000,
     stock: 30,
@@ -32,7 +32,7 @@ export const dataProducts = [
   {
     name: "Kopi Bubuk Bali Kintamani",
     slug: "kopi-bubuk-bali-kintamani",
-    imageUrl: "https://1ea7bnszm7.ucarecd.net/392756b1-03ce-41ce-9405-6cd32274a2b3/-/preview/666x1000/",
+    imageUrl: "https://1ea7bnszm7.ucarecd.net/392756b1-03ce-41ce-9405-6cd32274a2b3/-/preview/333x500/",
     origin: "Bali, Indonesia",
     price: 95000,
     stock: 25,
@@ -42,7 +42,7 @@ export const dataProducts = [
   {
     name: "Kopi Bubuk Flores Bajawa",
     slug: "kopi-bubuk-flores-bajawa",
-    imageUrl: "https://1ea7bnszm7.ucarecd.net/f2a0c41f-a6b1-4569-b11b-d0d7930af233/-/preview/666x1000/",
+    imageUrl: "https://1ea7bnszm7.ucarecd.net/f2a0c41f-a6b1-4569-b11b-d0d7930af233/-/preview/333x500/",
     origin: "Flores, Indonesia",
     price: 88000,
     stock: 35,
@@ -52,7 +52,7 @@ export const dataProducts = [
   {
     name: "Kopi Bubuk Mandailing",
     slug: "kopi-bubuk-mandailing",
-    imageUrl: "https://1ea7bnszm7.ucarecd.net/55ac29c2-eeb8-4360-984a-c19c253b6e9c/-/preview/666x1000/",
+    imageUrl: "https://1ea7bnszm7.ucarecd.net/55ac29c2-eeb8-4360-984a-c19c253b6e9c/-/preview/333x500/",
     origin: "Sumatera Utara, Indonesia",
     price: 89000,
     stock: 50,
@@ -62,7 +62,7 @@ export const dataProducts = [
   {
     name: "Kopi Bubuk Wamena",
     slug: "kopi-bubuk-wamena",
-    imageUrl: "https://1ea7bnszm7.ucarecd.net/d4975bc2-eaaa-4f6a-b242-006b345f06b5/-/preview/666x1000/",
+    imageUrl: "https://1ea7bnszm7.ucarecd.net/d4975bc2-eaaa-4f6a-b242-006b345f06b5/-/preview/333x500/",
     origin: "Papua, Indonesia",
     price: 98000,
     stock: 20,
@@ -72,7 +72,7 @@ export const dataProducts = [
   {
     name: "Cold Brew Seduh.in Original",
     slug: "cold-Brew-seduhin-original",
-    imageUrl: "https://1ea7bnszm7.ucarecd.net/b2279de6-4439-47b0-8064-041d7f7a6ea4/-/preview/666x1000/",
+    imageUrl: "https://1ea7bnszm7.ucarecd.net/b2279de6-4439-47b0-8064-041d7f7a6ea4/-/preview/333x500/",
     origin: "Jakarta, Indonesia",
     price: 35000,
     stock: 30,
