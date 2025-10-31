@@ -18,7 +18,7 @@ import {
   UserSchema,
   UsersSchema,
 } from "../modules/user/schema";
-import { password } from "bun";
+import { hash, password } from "bun";
 import { use } from "hono/jsx";
 
 export const app = new OpenAPIHono();
@@ -148,13 +148,30 @@ app.openapi(
     try {
       const user = await db.user.findUnique({
         where: { email: body.email },
+        include: {
+          password: true,
+        },
       });
 
       if (!user) {
         return c.notFound();
       }
 
-      console.log({ user });
+      if (!user.password?.hash) {
+        return c.json({
+          message: "User has no password",
+        });
+      }
+
+      const isMatch = await Bun.password.verify(body.password, user.password?.hash);
+
+      if (!isMatch) {
+        return c.json({
+          message: "Password incorect",
+        });
+      }
+
+      console.log({ user, isMatch });
 
       const token = "..";
       // Todo
