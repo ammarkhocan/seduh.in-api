@@ -10,7 +10,7 @@ import {
   ProductUpdateSchema,
 } from "../modules/product/schema";
 import { cors } from "hono/cors";
-import { UserIdParamSchem, UserSchema, UsersSchema } from "../modules/user/schema";
+import { RegisterUserScema, UserIdParamSchem, UserSchema, UsersSchema } from "../modules/user/schema";
 
 export const app = new OpenAPIHono();
 
@@ -29,7 +29,11 @@ app.openapi(
     },
   }),
   async (c) => {
-    const users = await db.user.findMany();
+    const users = await db.user.findMany({
+      omit: {
+        email: true,
+      },
+    });
     return c.json(users);
   }
 );
@@ -42,26 +46,57 @@ app.openapi(
     request: { params: UserIdParamSchem },
     responses: {
       200: {
-        description: "Get on user by ID",
+        description: "Get one user by ID",
         content: { "application/json": { schema: UserSchema } },
       },
       404: {
-        description: "user by id not found",
+        description: "User by id not found",
       },
     },
   }),
   async (c) => {
     const { id } = c.req.valid("param");
 
-    const user = await db.product.findUnique({ where: { id } });
+    const user = await db.user.findUnique({
+      where: { id },
+      omit: {
+        email: true,
+      },
+    });
 
     if (!user) {
       return c.notFound();
     }
+
     return c.json(user);
   }
 );
+
 // POST auth/register
+app.openapi(
+  createRoute({
+    method: "post",
+    path: "/auth/register",
+    request: { body: { content: { "application/json": { schema: RegisterUserScema } } } },
+    responses: {
+      201: {
+        description: "Register new users",
+        content: { "application/json": { schema: UserSchema } },
+      },
+    },
+  }),
+  async (c) => {
+    const body = c.req.valid("json");
+    const users = await db.user.create({
+      data: {
+        username: body.username,
+        email: body.email,
+        fullName: body.fullName,
+      },
+    });
+    return c.json(users);
+  }
+);
 // POST auth/login
 // GET auth/me
 
