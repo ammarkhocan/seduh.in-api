@@ -12,7 +12,7 @@ import {
 import { cors } from "hono/cors";
 import {
   LoginUserScema,
-  PrivatUserSchema,
+  PrivateUserSchema,
   RegisterUserScema,
   TokenSchema,
   UserIdParamSchem,
@@ -90,7 +90,9 @@ app.openapi(
   createRoute({
     method: "post",
     path: "/auth/register",
-    request: { body: { content: { "application/json": { schema: RegisterUserScema } } } },
+    request: {
+      body: { content: { "application/json": { schema: RegisterUserScema } } },
+    },
     responses: {
       201: {
         description: "Register new users",
@@ -132,7 +134,9 @@ app.openapi(
   createRoute({
     method: "post",
     path: "/auth/login",
-    request: { body: { content: { "application/json": { schema: LoginUserScema } } } },
+    request: {
+      body: { content: { "application/json": { schema: LoginUserScema } } },
+    },
     responses: {
       200: {
         description: "Logged in user",
@@ -167,7 +171,10 @@ app.openapi(
         });
       }
 
-      const isMatch = await Bun.password.verify(body.password, user.password?.hash);
+      const isMatch = await Bun.password.verify(
+        body.password,
+        user.password?.hash
+      );
 
       if (!isMatch) {
         return c.json({
@@ -198,7 +205,7 @@ app.openapi(
     responses: {
       200: {
         description: "Get authenticated user",
-        content: { "application/json": { schema: PrivatUserSchema } },
+        content: { "application/json": { schema: PrivateUserSchema } },
       },
       404: {
         description: "User by id not found",
@@ -411,7 +418,14 @@ productsRoute.get("/:slug", async (c) => {
 productsRoute.post("/", async (c) => {
   const body = await c.req.json();
 
-  if (!body.name || !body.price || !body.stock || !body.origin || !body.imageUrl || !body.description) {
+  if (
+    !body.name ||
+    !body.price ||
+    !body.stock ||
+    !body.origin ||
+    !body.imageUrl ||
+    !body.description
+  ) {
     return c.json({ message: "Missing required fields" }, 400);
   }
 
