@@ -18,4 +18,5 @@ export const RegisterUserScema = z.object({
   username: z.string(),
   email: z.string(),
   fullName: z.string(),
+  password: z.string(),
 });

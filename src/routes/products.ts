@@ -11,6 +11,7 @@ import {
 } from "../modules/product/schema";
 import { cors } from "hono/cors";
 import { RegisterUserScema, UserIdParamSchem, UserSchema, UsersSchema } from "../modules/user/schema";
+import { password } from "bun";
 
 export const app = new OpenAPIHono();
 
@@ -92,11 +93,14 @@ app.openapi(
     const body = c.req.valid("json");
 
     try {
+      const hash = await Bun.password.hash(body.password);
+
       const users = await db.user.create({
         data: {
           username: body.username,
           email: body.email,
           fullName: body.fullName,
+          password: { create: { hash } },
         },
       });
       return c.json(users, 201);
