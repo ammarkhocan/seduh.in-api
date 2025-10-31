@@ -10,10 +10,60 @@ import {
   ProductUpdateSchema,
 } from "../modules/product/schema";
 import { cors } from "hono/cors";
+import { UserIdParamSchem, UserSchema, UsersSchema } from "../modules/user/schema";
 
 export const app = new OpenAPIHono();
 
 app.use(cors());
+
+// GET /users
+app.openapi(
+  createRoute({
+    method: "get",
+    path: "/users",
+    responses: {
+      200: {
+        description: "Get all users",
+        content: { "application/json": { schema: UsersSchema } },
+      },
+    },
+  }),
+  async (c) => {
+    const users = await db.user.findMany();
+    return c.json(users);
+  }
+);
+
+// GET users/{id}
+app.openapi(
+  createRoute({
+    method: "get",
+    path: "/users/{id}",
+    request: { params: UserIdParamSchem },
+    responses: {
+      200: {
+        description: "Get on user by ID",
+        content: { "application/json": { schema: UserSchema } },
+      },
+      404: {
+        description: "user by id not found",
+      },
+    },
+  }),
+  async (c) => {
+    const { id } = c.req.valid("param");
+
+    const user = await db.product.findUnique({ where: { id } });
+
+    if (!user) {
+      return c.notFound();
+    }
+    return c.json(user);
+  }
+);
+// POST auth/register
+// POST auth/login
+// GET auth/me
 
 app.openapi(
   createRoute({
