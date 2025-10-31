@@ -10,8 +10,16 @@ import {
   ProductUpdateSchema,
 } from "../modules/product/schema";
 import { cors } from "hono/cors";
-import { RegisterUserScema, UserIdParamSchem, UserSchema, UsersSchema } from "../modules/user/schema";
+import {
+  LoginUserScema,
+  RegisterUserScema,
+  TokenSchema,
+  UserIdParamSchem,
+  UserSchema,
+  UsersSchema,
+} from "../modules/user/schema";
 import { password } from "bun";
+import { use } from "hono/jsx";
 
 export const app = new OpenAPIHono();
 
@@ -114,7 +122,53 @@ app.openapi(
     }
   }
 );
+
 // POST auth/login
+app.openapi(
+  createRoute({
+    method: "post",
+    path: "/auth/login",
+    request: { body: { content: { "application/json": { schema: LoginUserScema } } } },
+    responses: {
+      200: {
+        description: "Logged in user",
+        content: { "application/json": { schema: TokenSchema } },
+      },
+      400: {
+        description: "Failed to login user",
+      },
+      404: {
+        description: "User not found",
+      },
+    },
+  }),
+  async (c) => {
+    const body = c.req.valid("json");
+
+    try {
+      const user = await db.user.findUnique({
+        where: { email: body.email },
+      });
+
+      if (!user) {
+        return c.notFound();
+      }
+
+      console.log({ user });
+
+      const token = "..";
+      // Todo
+      return c.json(token);
+    } catch (error) {
+      return c.json(
+        {
+          message: "Email or password in correct",
+        },
+        400
+      );
+    }
+  }
+);
 // GET auth/me
 
 app.openapi(

@@ -20,3 +20,10 @@ export const RegisterUserScema = z.object({
   fullName: z.string(),
   password: z.string(),
 });
+
+export const LoginUserScema = z.object({
+  email: z.string(),
+  password: z.string(),
+});
+
+export const TokenSchema = z.string();
