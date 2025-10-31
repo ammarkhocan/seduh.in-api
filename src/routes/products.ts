@@ -20,6 +20,7 @@ import {
 } from "../modules/user/schema";
 import { hash, password } from "bun";
 import { use } from "hono/jsx";
+import { sign, verify, decode } from "hono/jwt";
 
 export const app = new OpenAPIHono();
 
@@ -171,9 +172,17 @@ app.openapi(
         });
       }
 
-      console.log({ user, isMatch });
+      const payload = {
+        sub: user.id,
+        exp: Math.floor(Date.now() / 1000) + 60 * 5, // Expires in 5 minutes
+      };
 
-      const token = "..";
+      const tokenSecretKey = String(process.env.TOKEN_SECRET_KEY);
+
+      const token = await sign(payload, tokenSecretKey);
+      // console.log({ user, isMatch });
+
+      // const token = "..";
       // Todo
       return c.json(token);
     } catch (error) {
