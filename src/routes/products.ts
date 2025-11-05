@@ -12,7 +12,7 @@ import {
 import { cors } from "hono/cors";
 import {
   LoginUserScema,
-  PrivatUserSchema,
+  PrivateUserSchema,
   RegisterUserScema,
   TokenSchema,
   UserIdParamSchem,
@@ -198,7 +198,7 @@ app.openapi(
     responses: {
       200: {
         description: "Get authenticated user",
-        content: { "application/json": { schema: PrivatUserSchema } },
+        content: { "application/json": { schema: PrivateUserSchema } },
       },
       404: {
         description: "User by id not found",
