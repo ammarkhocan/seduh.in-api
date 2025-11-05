@@ -1,10 +1,32 @@
 import { OpenAPIHono } from "@hono/zod-openapi";
-import { app as productsApp, productsRoute } from "./routes/products";
+import { productsRoute } from "./modules/product/route";
+import { cors } from "hono/cors";
+import { Scalar } from "@scalar/hono-api-reference";
+import { usersRoute } from "./modules/user/route";
+import { authRoute } from "./modules/auth/route";
 
-const mainApp = new OpenAPIHono();
+const app = new OpenAPIHono();
 
-mainApp.route("/", productsApp);
+app.use(cors());
 
-mainApp.route("/products", productsRoute);
+app.doc("/openapi.json", {
+  openapi: "3.0.0",
+  info: {
+    title: "Seduh.in API",
+    version: "1.0.0",
+  },
+});
 
-export default mainApp;
+app.get(
+  "/",
+  Scalar({
+    pageTitle: "Seduh.in API",
+    url: "/openapi.json",
+  })
+);
+
+app.route("/products", productsRoute);
+app.route("/users", usersRoute);
+app.route("/auth", authRoute);
+
+export default app;
