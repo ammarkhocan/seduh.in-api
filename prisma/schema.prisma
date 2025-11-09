@@ -8,22 +8,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Product {
-  id String @id @default(ulid())
-
-  slug     String @unique
-  name     String
-  imageUrl String
-  origin   String
-
-  price       Int
-  stock       Int
-  description String @db.Text
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
 model User {
   id String @id @default(ulid())
 
@@ -32,6 +16,8 @@ model User {
   fullName String
 
   password Password?
+
+  carts Cart[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -44,6 +30,51 @@ model Password {
 
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Cart {
+  id String @id @default(ulid())
+
+  items CartItem[]
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model CartItem {
+  id String @id @default(ulid())
+
+  quantity Int
+
+  product   Product @relation(fields: [productId], references: [id], onUpdate: Cascade)
+  productId String
+
+  cart   Cart   @relation(fields: [cartId], references: [id])
+  cartId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Product {
+  id String @id @default(ulid())
+
+  slug     String @unique
+  name     String
+  imageUrl String
+  origin   String
+
+  price       Int
+  stock       Int
+  description String @db.Text
+
+  cartItems CartItem[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
