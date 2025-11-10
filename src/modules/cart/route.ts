@@ -17,7 +17,7 @@ cartRoute.openapi(
         content: { "application/json": { schema: CartSchema } },
       },
       404: {
-        description: "User by id not found",
+        description: "Cart not found",
       },
     },
   }),
