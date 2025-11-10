@@ -1,6 +1,6 @@
 import { OpenAPIHono, createRoute } from "@hono/zod-openapi";
 import { checkAuthorized } from "../auth/middleware";
-import { CartSchema } from "./schema";
+import { AddCartItemSchema, CartItemSchema, CartSchema } from "./schema";
 import { db } from "../../lib/db";
 
 export const cartRoute = new OpenAPIHono();
@@ -38,5 +38,54 @@ cartRoute.openapi(
     }
 
     return c.json(cart);
+  }
+);
+
+// POST /cart/items
+cartRoute.openapi(
+  createRoute({
+    method: "post",
+    path: "/items",
+    middleware: checkAuthorized,
+    request: {
+      body: { content: { "application/json": { schema: AddCartItemSchema } } },
+    },
+    responses: {
+      200: {
+        description: "Add item to cart",
+        content: { "application/json": { schema: CartItemSchema } },
+      },
+      400: {
+        description: "Failed to add item to cart",
+      },
+    },
+  }),
+  async (c) => {
+    try {
+      const body = c.req.valid("json");
+      const user = c.get("user");
+
+      const cart = await db.cart.findFirst({
+        where: { userId: user.id },
+        // include: { items: { include: { product: true } } },
+      });
+
+      if (!cart) {
+        return c.json({ message: "Cart not found" }, 400);
+      }
+
+      const newCartItem = await db.cartItem.create({
+        data: {
+          cartId: cart.id,
+          productId: body.productId,
+          quantity: body.quantity,
+        },
+        include: { product: true },
+      });
+
+      return c.json(newCartItem);
+    } catch (error) {
+      return c.json({ message: "Failed to add item to cart" }, 400);
+    }
   }
 );
