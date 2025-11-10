@@ -4,6 +4,7 @@ import { cors } from "hono/cors";
 import { Scalar } from "@scalar/hono-api-reference";
 import { usersRoute } from "./modules/user/route";
 import { authRoute } from "./modules/auth/route";
+import { cartRoute } from "./modules/cart/route";
 
 const app = new OpenAPIHono();
 
@@ -28,5 +29,6 @@ app.get(
 app.route("/products", productsRoute);
 app.route("/users", usersRoute);
 app.route("/auth", authRoute);
+app.route("/cart", cartRoute);
 
 export default app;
