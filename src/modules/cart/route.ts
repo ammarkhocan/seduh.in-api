@@ -74,6 +74,8 @@ cartRoute.openapi(
         return c.json({ message: "Cart not found" }, 400);
       }
 
+      // TODO: Improve logic for existing item
+
       const newCartItem = await db.cartItem.create({
         data: {
           cartId: cart.id,
