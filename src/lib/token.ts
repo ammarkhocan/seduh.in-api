@@ -9,7 +9,7 @@ interface JWTPayload {
 export async function signToken(userId: string) {
   const payload = {
     sub: userId,
-    exp: Math.floor(Date.now() / 1000) + 60 * 5,
+    exp: Math.floor(Date.now() / 1000) + 60 * 15,
   };
   const token = await sign(payload, tokenSecretKey);
   return token;
