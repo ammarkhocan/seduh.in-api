@@ -2,6 +2,7 @@ import { OpenAPIHono, createRoute } from "@hono/zod-openapi";
 import { checkAuthorized } from "../auth/middleware";
 import { AddCartItemSchema, CartItemSchema, CartSchema } from "./schema";
 import { db } from "../../lib/db";
+import { z } from "@hono/zod-openapi";
 
 export const cartRoute = new OpenAPIHono();
 
@@ -105,6 +106,43 @@ cartRoute.openapi(
     } catch (error) {
       console.log(error);
       return c.json({ message: "Failed to add item to cart" }, 400);
+    }
+  }
+);
+
+// DELETE /cart/items/:id
+cartRoute.openapi(
+  createRoute({
+    method: "delete",
+    path: "/items/{id}",
+    responses: {
+      200: { description: "Cart item deleted successfully" },
+      404: { description: "Cart item not found" },
+    },
+  }),
+  async (c) => {
+    try {
+      const id = c.req.param("id");
+
+      const item = await db.cartItem.findUnique({
+        where: { id: id },
+      });
+
+      if (!item) {
+        return c.json({ message: "Cart item not found" }, 404);
+      }
+
+      await db.cartItem.delete({
+        where: { id: id },
+      });
+
+      return c.json({
+        message: `Cart item '${id}' deleted successfully`,
+        deletedItem: item,
+      });
+    } catch (error) {
+      console.error(error);
+      return c.json({ error: "Failed to delete cart item" }, 400);
     }
   }
 );
