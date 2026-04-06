@@ -13,7 +13,9 @@ async function main() {
     console.log(`☕ ${upsertedProduct.name}`);
   }
 
-  console.log("Seeding complete! Seduh.in product data has been successfully added.");
+  console.log(
+    "Seeding complete! Seduh.in product data has been successfully added.",
+  );
 }
 
 main();
