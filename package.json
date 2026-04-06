@@ -1,5 +1,5 @@
 {
-  "name": "my-app",
+  "name": "seduh-in",
   "scripts": {
     "dev": "bun run --hot src/index.ts",
     "start": "bun run src/index.ts",
